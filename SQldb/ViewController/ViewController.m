@@ -74,8 +74,6 @@ static NSString * const myCellId = @"idCellTask";
     return 60;
 }
 
-
-
 - (void)loadData {
     if(self.tasksArr != nil) {
         self.tasksArr = nil;
