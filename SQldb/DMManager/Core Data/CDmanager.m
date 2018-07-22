@@ -7,13 +7,7 @@
 //
 
 #import "CDmanager.h"
-
-static NSString *const kEntityName = @"Task";
-static NSString *const kTaskID = @"taskID";
-static NSString *const kTitle = @"title";
-static NSString *const kDate = @"date";
-static NSString *const kPriority = @"priority";
-static NSString *const kCdTaskDescription = @"taskDescription";
+#import "NSArray+ParsingMOintoTask.h"
 
 @interface CDmanager()
 @property(nonatomic, strong) NSManagedObjectContext *contex;
@@ -33,7 +27,7 @@ static NSString *const kCdTaskDescription = @"taskDescription";
     NSEntityDescription *entityDescr = [NSEntityDescription entityForName:kEntityName inManagedObjectContext:self.contex];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescr];
-    [request setReturnsObjectsAsFaults:NO];
+//    [request setReturnsObjectsAsFaults:NO];
     
     NSError *err;
     NSArray *result;
@@ -47,6 +41,7 @@ static NSString *const kCdTaskDescription = @"taskDescription";
         }
     } else {
         result = [self.contex executeFetchRequest:request error:&err];
+        result = [result convertMOintoTask:result];
         if(err != nil) {
             NSLog(@"1.Failed to load data from CD\n%@\n%@", err, [err localizedDescription]);
         } else {
@@ -60,7 +55,7 @@ static NSString *const kCdTaskDescription = @"taskDescription";
 
 - (NSPredicate *)configurePredicateWithTask:(Task *)task {
     NSNumber *taskID = [NSNumber numberWithInteger:task.taskID];
-    NSDictionary *dataForPredicate = @{kTaskID:taskID, kTitle:task.title, kDate:task.date, kPriority:task.priority, kCdTaskDescription:task.taskDescription};
+    NSDictionary *dataForPredicate = @{cdTaskID:taskID, cdTitle:task.title, cdDate:task.date, cdPriority:task.priority, cdTaskDescription:task.taskDescription};
     
     NSMutableArray *subpredicates = [NSMutableArray arrayWithCapacity:dataForPredicate.allKeys.count];
     
@@ -74,7 +69,7 @@ static NSString *const kCdTaskDescription = @"taskDescription";
 
 - (void)addRowInDb:(Task *)newTask {
     NSNumber *taskID = [NSNumber numberWithInteger:newTask.taskID];
-    NSDictionary *dataForNewMO = @{kTaskID:taskID, kTitle:newTask.title, kDate:newTask.date, kPriority:newTask.priority, kCdTaskDescription:newTask.taskDescription};
+    NSDictionary *dataForNewMO = @{cdTaskID:taskID, cdTitle:newTask.title, cdDate:newTask.date, cdPriority:newTask.priority, cdTaskDescription:newTask.taskDescription};
     NSEntityDescription *entityDescr = [NSEntityDescription entityForName:kEntityName inManagedObjectContext:self.contex];
     NSManagedObject *newMO = [[NSManagedObject alloc] initWithEntity:entityDescr insertIntoManagedObjectContext:self.contex];
     [newMO setValuesForKeysWithDictionary:dataForNewMO];
@@ -89,7 +84,7 @@ static NSString *const kCdTaskDescription = @"taskDescription";
 
 - (void)updateRowInDb:(Task *)taskBeforeUpdate newInfoForTask:(Task *)newInfoForTask {
     NSNumber *taskID = [NSNumber numberWithInteger:newInfoForTask.taskID];
-    NSDictionary *dataToUpdateMO = @{kTaskID:taskID, kTitle:newInfoForTask.title, kDate:newInfoForTask.date, kPriority:newInfoForTask.priority, kCdTaskDescription:newInfoForTask.taskDescription};
+    NSDictionary *dataToUpdateMO = @{cdTaskID:taskID, cdTitle:newInfoForTask.title, cdDate:newInfoForTask.date, cdPriority:newInfoForTask.priority, cdTaskDescription:newInfoForTask.taskDescription};
     
     NSArray *result = [self loadDataFromDB:taskBeforeUpdate];
     

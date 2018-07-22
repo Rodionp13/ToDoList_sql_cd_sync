@@ -46,7 +46,6 @@ static NSString * const myCellId = @"idCellTask";
     Task *task = [self.tasksArr objectAtIndex:indexPath.row];
     cell.titleLbl.text = task.title;
     cell.dateLbl.text = task.date;
-//    [cell setUpPriorityBttn:self.tasksArr columnName:self.dbManager.arrColumnNames indexPath:indexPath];
     [cell setUpPriorityBttnWith:self.tasksArr indexPath:indexPath];
     return cell;
 }
@@ -66,7 +65,6 @@ static NSString * const myCellId = @"idCellTask";
         
         //DMManager Work(SQL && CD)
         [self.dmManager deleteRowFromBothDBsWithTask:taskToDelete];
-        
         //reload tableView
         [self loadData];
     }
@@ -79,22 +77,11 @@ static NSString * const myCellId = @"idCellTask";
 
 
 - (void)loadData {
-    
     if(self.tasksArr != nil) {
         self.tasksArr = nil;
     }
-    
 //    DMManager Work
-    NSDictionary *result = [self.dmManager loadDataFromBothDBs];
-    NSArray *sqlArr = [result valueForKey:kSqlData];
-    NSArray *cdArr = [result valueForKey:kCdData];
-    
-    if(self.controlSwitch.isOn == NO) {
-        self.tasksArr = sqlArr;
-    } else {
-        self.tasksArr = cdArr;
-    }
-    
+    self.tasksArr = [self.dmManager loadDataFromBothDBs];
     [self.tableView reloadData];
 }
 

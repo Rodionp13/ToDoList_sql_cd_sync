@@ -18,11 +18,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *taskDate;
 @property (weak, nonatomic) IBOutlet UITextView *taskDescription;
 @property (weak, nonatomic) IBOutlet UIButton *priorityBttn;
-
 @property (strong ,nonatomic) UIAlertController *dateAlert;
-
 @property (strong, nonatomic) DMManager *dmManager;
-
 @property (strong, nonatomic) DetailViewController *detailVC;
 
 @property(assign, nonatomic, getter=isSelectedTitleBttn) BOOL selectedTitleBttn;
@@ -32,7 +29,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *titleBttnQuery;
 @property (weak, nonatomic) IBOutlet UIButton *dateBttnQuery;
-
 
 - (IBAction)hightPriorBttnTapped:(UIButton *)sender;
 - (IBAction)saveInfo:(id)sender;
@@ -49,7 +45,6 @@
     //DBs Configuration
     self.dmManager = [[DMManager alloc] initWithSwitchState:self.isSwitchOn];
     
-//    if(self.idToEdit != -1) {
     if(self.taskToEdit != nil) {
         [self loadInfoToEdit];
         [self.titleBttnQuery setHidden:NO];
@@ -82,7 +77,7 @@
 #pragma mark - configuration for text fields
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self convertTextIntoDateFormatToCheck:textField.text];
+//    [self convertTextIntoDateFormatToCheck:textField.text];
 }
 
 // Check validity of date string
@@ -127,10 +122,8 @@
     }
     
     if(self.taskToEdit == nil) {
-        //sql - taskID == [NSNull nll]; CoreData - taskID == self.countDataSource + 1;
         NSInteger taskID = ([[NSNumber numberWithUnsignedInteger:self.idOfLastItemInTasksArray] integerValue] + 1);
         task = [[Task alloc] initTaslWithId:taskID title:[self.taskTitle.text lowercaseString] date:self.taskDate.text priority:self.priorityBttn.titleLabel.text andTaskDescription:self.taskDescription.text];
-        
         //DMManager Work
         [self.dmManager addRowInBothDBs:task];
     } else {
@@ -139,7 +132,6 @@
         Task *newInfoForTask = [[Task alloc] initTaslWithId:taskID title:self.taskTitle.text date:self.taskDate.text priority:self.priorityBttn.titleLabel.text andTaskDescription:self.taskDescription.text];
         [self.dmManager updateRowInBothDBs:self.taskToEdit newInfoForTask:newInfoForTask];
     }
-    
         [self.delegate editingInfoWasFinishedWithIDofNewElement];
         [self.navigationController popViewControllerAnimated:YES];
 }
@@ -167,31 +159,19 @@
 
 //pass editted info to VC
 -(void)loadInfoToEdit{
+    NSArray *result;
     
-    NSDictionary *result;
     if(self.taskToEdit != nil) {
-        
         //DMManager Work
         result = [self.dmManager selectRowFromBothDBsWith:self.taskToEdit sqlColumnNames:nil :NameOfColumnInRowID];
-        
     }
-    NSArray *sqlArr = [result valueForKey:kSqlData];
-    NSArray *coreDataArr = [result valueForKey:kCdData];
-    Task *sqlTask = [sqlArr lastObject];
-    Task *coreDataTask = [coreDataArr lastObject];
+    Task *task = [result lastObject];
     
-    NSString *title; NSString *date; NSString *taskDescription; NSString *priority;
-    if(self.isSwitchOn == NO) {
-        title = sqlTask.title; date = sqlTask.date; taskDescription = sqlTask.taskDescription; priority = sqlTask.priority;
-    } else {
-        title = coreDataTask.title; date = coreDataTask.date; taskDescription = coreDataTask.taskDescription; priority = coreDataTask.priority;
-    }
+    self.taskTitle.text = task.title;
+    self.taskDate.text = task.date;
+    self.taskDescription.text = task.taskDescription;
     
-    self.taskTitle.text = title;
-    self.taskDate.text = date;
-    self.taskDescription.text = taskDescription;
-    
-    if ([priority isEqualToString:@"high"]) {
+    if ([task.priority isEqualToString:@"high"]) {
             [self.priorityBttn setBackgroundColor:UIColor.redColor];
             [self.priorityBttn setTitle:@"high" forState:UIControlStateNormal];
         } else {

@@ -25,6 +25,7 @@
 		CEB14F3420F44A1D00383CBE /* myTasks.db in Resources */ = {isa = PBXBuildFile; fileRef = CEB14F3320F44A1C00383CBE /* myTasks.db */; };
 		CEE1393920F4B596005DC537 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE1393820F4B596005DC537 /* DetailViewController.m */; };
 		CEE1393D20F4CA1E005DC537 /* ViewControllerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE1393C20F4CA1E005DC537 /* ViewControllerCell.m */; };
+		CEE9619F2105092D00B7AA93 /* NSArray+ParsingMOintoTask.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE9619E2105092D00B7AA93 /* NSArray+ParsingMOintoTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		CEE1393820F4B596005DC537 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		CEE1393B20F4CA1E005DC537 /* ViewControllerCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControllerCell.h; sourceTree = "<group>"; };
 		CEE1393C20F4CA1E005DC537 /* ViewControllerCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerCell.m; sourceTree = "<group>"; };
+		CEE9619D2105092D00B7AA93 /* NSArray+ParsingMOintoTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+ParsingMOintoTask.h"; sourceTree = "<group>"; };
+		CEE9619E2105092D00B7AA93 /* NSArray+ParsingMOintoTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ParsingMOintoTask.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,8 @@
 		CE66BB6920F410E300B803DD = {
 			isa = PBXGroup;
 			children = (
+				CEE9619D2105092D00B7AA93 /* NSArray+ParsingMOintoTask.h */,
+				CEE9619E2105092D00B7AA93 /* NSArray+ParsingMOintoTask.m */,
 				CE66BB7420F410E300B803DD /* SQldb */,
 				CE66BB8D20F410E600B803DD /* SQldbTests */,
 				CE66BB9820F410E600B803DD /* SQldbUITests */,
@@ -379,6 +384,7 @@
 				3DD8CBC120FE261E000A126C /* CDmanager.m in Sources */,
 				3DD8CBCD20FE32F3000A126C /* DMManager.m in Sources */,
 				CE66BB8520F410E600B803DD /* main.m in Sources */,
+				CEE9619F2105092D00B7AA93 /* NSArray+ParsingMOintoTask.m in Sources */,
 				3DD8CBBE20FE0C4F000A126C /* Task.m in Sources */,
 				CE66BB7720F410E300B803DD /* AppDelegate.m in Sources */,
 				CEE1393D20F4CA1E005DC537 /* ViewControllerCell.m in Sources */,

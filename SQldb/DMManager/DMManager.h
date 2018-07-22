@@ -20,9 +20,9 @@ static NSString *const kCdData =  @"cdData";
 
 - (id)initWithSwitchState:(BOOL)state;
 
-- (NSDictionary *)loadDataFromBothDBs;
+- (NSArray *)loadDataFromBothDBs;
 
-- (NSDictionary *)selectRowFromBothDBsWith:(Task *)coreDataAndSqlSelectedTaskToLoad sqlColumnNames:(NSArray *)sqlByColumnName :(NameOfColumnInRow)columnNameInRow;
+- (NSArray *)selectRowFromBothDBsWith:(Task *)coreDataAndSqlSelectedTaskToLoad sqlColumnNames:(NSArray *)sqlByColumnName :(NameOfColumnInRow)columnNameInRow;
 
 - (void) addRowInBothDBs:(Task *)newTask;
 

@@ -28,76 +28,49 @@
     return self;
 }
 
-- (NSDictionary *)loadDataFromBothDBs {
+- (NSArray *)loadDataFromBothDBs {
     
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    
-//    if(!self.isSwitchOn) {
-        NSArray *sqlData = [self.sqlManager loadDatatFromDB];
-        [result setValue:sqlData forKey:kSqlData];
-//    } else {
-        NSArray * cdData = [self.cdManager loadDataFromDB:nil];
-        [result setValue:cdData forKey:kCdData];
-//    }
-    
-    NSLog(@"\n\n\nloadDataFromDB RESULT:\n\n\n, %@",result);
-    
+    NSArray *result;
+    if(!self.isSwitchOn) {
+        result = [self.sqlManager loadDatatFromDB];
+    } else {
+        result = [self.cdManager loadDataFromDB:nil];
+    }
+    if(self.switchOn) {NSLog(@"\n\n\nloadDataFrom CORE DATA RESULT:\n\n\n, %@",result);}
+    if(!self.switchOn) {NSLog(@"\n\n\nloadDataFrom SQLite RESULT:\n\n\n, %@",result);}
     return result;
 }
 
-- (NSDictionary *)selectRowFromBothDBsWith:(Task *)coreDataAndSqlSelectedTaskToLoad sqlColumnNames:(NSArray *)sqlByColumnName :(NameOfColumnInRow)columnNameInRow {
+- (NSArray *)selectRowFromBothDBsWith:(Task *)coreDataAndSqlSelectedTaskToLoad sqlColumnNames:(NSArray *)sqlByColumnName :(NameOfColumnInRow)columnNameInRow {
     
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
-    
-//    if(!self.isSwitchOn) {
-        NSArray *sqlData = [self.sqlManager selectRowsWithColumnNames:nil byColumnName:NameOfColumnInRowID withSelectedTask:coreDataAndSqlSelectedTaskToLoad];
-        [result setValue:sqlData forKey:kSqlData];
-//    } else {
-        NSArray * cdData = [self.cdManager loadDataFromDB:coreDataAndSqlSelectedTaskToLoad];
-        [result setValue:cdData forKey:kCdData];
-//    }
-    
+    NSArray *result;
+    if(!self.isSwitchOn) {
+        result = [self.sqlManager selectRowsWithColumnNames:nil byColumnName:NameOfColumnInRowID withSelectedTask:coreDataAndSqlSelectedTaskToLoad];
+    } else {
+        result = [self.cdManager loadDataFromDB:coreDataAndSqlSelectedTaskToLoad];
+    }
     NSLog(@"\n\nselectRowFromBothDBsWith RESULT:\n\n, %@",result);
-    
     return result;
 }
-
 
 - (void)addRowInBothDBs:(Task *)newTask {
-    
-//    if(!self.isSwitchOn) {
-        [self.sqlManager addRowInDb:newTask];
-//    } else {
-        [self.cdManager addRowInDb:newTask];
-//    }
+    [self.sqlManager addRowInDb:newTask];
+    [self.cdManager addRowInDb:newTask];
 }
 
 - (void)updateRowInBothDBs:(Task *)forCoreDataTaskBeforeUpdate newInfoForTask:(Task *)coreDataAndSqlNewInfoForTask {
-    
-//    if(!self.isSwitchOn) {
-        [self.sqlManager updateRowInDb:coreDataAndSqlNewInfoForTask];
-//    } else {
-        [self.cdManager updateRowInDb:forCoreDataTaskBeforeUpdate newInfoForTask:coreDataAndSqlNewInfoForTask];
-//    }
+    [self.sqlManager updateRowInDb:coreDataAndSqlNewInfoForTask];
+    [self.cdManager updateRowInDb:forCoreDataTaskBeforeUpdate newInfoForTask:coreDataAndSqlNewInfoForTask];
 }
 
 - (void)deleteRowFromBothDBsWithTask:(Task *)taskToDelete {
-    
-//    if(!self.isSwitchOn) {
-        [self.sqlManager deleteRowFromDbByTaskId:taskToDelete];
-//    } else {
-        [self.cdManager deleteRowFromDbWithTask:taskToDelete];
-//    }
-    
+    [self.sqlManager deleteRowFromDbByTaskId:taskToDelete];
+    [self.cdManager deleteRowFromDbWithTask:taskToDelete];
 }
 
 - (void)deleteAllRowsFromBothDBs {
-    
-//    if(!self.isSwitchOn) {
-        [self.sqlManager deleteAllRowsFromDb];
-//    } else {
-        [self.cdManager deleteAllRowsFromDb];
-//    }
+    [self.sqlManager deleteAllRowsFromDb];
+    [self.cdManager deleteAllRowsFromDb];
 }
 
 

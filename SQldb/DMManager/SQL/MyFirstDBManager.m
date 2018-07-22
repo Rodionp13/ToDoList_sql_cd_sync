@@ -79,8 +79,6 @@
     self.arrColumnNames = [NSMutableArray array];
 
     //Open db
-//    BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
-//    sqlite3_open(<#const char *filename#>, <#sqlite3 **ppDb#>)
     BOOL open_v2 = sqlite3_open_v2([databasePath UTF8String], &sqlite3Database, SQLITE_OPEN_READWRITE, NULL);
     if(open_v2 == SQLITE_OK) {
         //declare sql stmt object -> to store in it query after it compiled into sql statement
@@ -138,7 +136,6 @@
     [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }
 
-
 //=============================================================================================================//
 - (NSArray *)loadDatatFromDB {
     NSString *query = @"select * from myTasks";
@@ -150,7 +147,6 @@
 - (NSArray *)loadDatatFromDB:(NSString *)query {
     //run non executable quary
     [self runQuery:[query UTF8String] isQueryExecutable:NO];
-    
     NSMutableArray<Task*> *result = [NSMutableArray arrayWithCapacity:self.arrResults.count];
     
     for(NSDictionary *item in self.arrResults) {
@@ -163,29 +159,23 @@
         Task *myTask = [[Task alloc] initTaslWithId:[taskId integerValue] title:title date:date priority:priority andTaskDescription:description];
         [result addObject:myTask];
     }
-    
-    
     return [result copy];
 }
 //=============================================================================================================//
 
-
 - (void)deleteAllRowsFromDb {
     NSString *query = [NSString stringWithFormat:@"delete from myTasks"];
-    
     [self executeQuery:query];
 }
 
 - (void)deleteRowFromDbByTaskId:(Task *)task {
     NSString *query = [NSString stringWithFormat:@"delete from myTasks where %@=%ld", kTaskId, task.taskID];
-    
     [self executeQuery:query];
 }
 
 
 - (void) addRowInDb:(Task *)task {
-   NSString *query = [NSString stringWithFormat:@"insert into myTasks values(null, '%@', '%@', '%@', '%@')", task.title.lowercaseString, task.date, task.priority, task.taskDescription];
-    
+    NSString *query = [NSString stringWithFormat:@"insert into myTasks values(null, '%@', '%@', '%@', '%@')", task.title.lowercaseString, task.date, task.priority, task.taskDescription];
     [self executeQuery:query];
 }
 
@@ -205,7 +195,7 @@
     
     NSDictionary *context = [self defineColumnNameAndValue:columnNameInRow withSelectedTask:selectedTask];
     NSString *columnNameToSelect = [context valueForKey:@"columnName"];
-    id columnValueToSelect = [context valueForKey:@"columnNameVulue"];
+    id columnValueToSelect = [context valueForKey:@"columnNameValue"];
     
     if(columnNames.count == 2) {
         NSString *columnNameToShow1 = columnNames[0];
@@ -222,7 +212,6 @@
     
     return result;
 }
-
 
 
 - (NSDictionary *)defineColumnNameAndValue:(NameOfColumnInRow)nameOfColumnInRow withSelectedTask:(Task *)selectedTask {
@@ -253,7 +242,7 @@
         default:
             break;
     }
-    return @{@"columnName":columnName,@"columnNameVulue":columnNameVulue};
+    return @{@"columnName":columnName,@"columnNameValue":columnNameVulue};
 }
 
 @end

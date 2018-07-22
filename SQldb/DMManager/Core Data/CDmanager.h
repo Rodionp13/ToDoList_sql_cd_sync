@@ -11,6 +11,13 @@
 #import "AppDelegate.h"
 #import "Task.h"
 
+static NSString *const kEntityName = @"Task";
+static NSString *const cdTaskID = @"taskID";
+static NSString *const cdTitle = @"title";
+static NSString *const cdDate = @"date";
+static NSString *const cdPriority = @"priority";
+static NSString *const cdTaskDescription = @"taskDescription";
+
 @interface CDmanager : NSObject
 
 - (NSArray *)loadDataFromDB:(nullable Task*)taskToLoad;

@@ -18,9 +18,7 @@
     [super setSelected:selected animated:animated];
 }
 
-
 - (void)setUpPriorityBttnWith:(NSArray *)dataSource indexPath:(NSIndexPath *)indexPath {
-//    NSInteger indexOfPriority = [columnName indexOfObject:@"priority"];
     
     Task *task = [dataSource objectAtIndex:indexPath.row];
     NSString *priorityText = [NSString stringWithFormat:@"%@", task.priority];
@@ -29,7 +27,7 @@
         [self configurePriorityBttn:@"high"];
     } else {
         self.highPtiorLbl.text = @"";
-        [self.highPtiorLbl setBackgroundColor:UIColor.clearColor];
+        [self.highPtiorLbl.layer setBackgroundColor:UIColor.whiteColor.CGColor];
     }
 }
 
