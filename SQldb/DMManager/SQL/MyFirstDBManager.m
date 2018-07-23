@@ -55,6 +55,8 @@
     }
 }
 
+//======================================================================================================================================================================================
+
 - (void)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable {
     //Create SQLite object
     sqlite3 *sqlite3Database;
@@ -88,13 +90,11 @@
     BOOL prepareStatementResult = sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
         if(prepareStatementResult == SQLITE_OK) {
             if(!queryExecutable) {
-                //arr to keep each data row
-//                NSMutableArray *arrDataRow;
+                //dict to keep each data row
                 NSMutableDictionary *dictDataRow;
 
                 //Loop through the results and add them to the result Array row by row
                 while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
-//                    arrDataRow = [NSMutableArray array];
                     dictDataRow = [NSMutableDictionary dictionary];
 
                     int totalColums = sqlite3_column_count(compiledStatement);
@@ -136,7 +136,7 @@
     [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }
 
-//=============================================================================================================//
+//=====================================================================================================================================================================//
 - (NSArray *)loadDatatFromDB {
     NSString *query = @"select * from myTasks";
     NSArray *result = [self loadDatatFromDB:query];
@@ -181,7 +181,6 @@
 
 - (void) updateRowInDb:(Task *)taskToUpdate {
     NSString *query = [NSString stringWithFormat:@"update myTasks set title='%@', date='%@', priority='%@', description='%@' where taskID=%ld", [taskToUpdate.title lowercaseString], taskToUpdate.date, taskToUpdate.priority, taskToUpdate.taskDescription, taskToUpdate.taskID];
-    
     [self executeQuery:query];
 }
 

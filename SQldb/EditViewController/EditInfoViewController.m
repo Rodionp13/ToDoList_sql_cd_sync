@@ -41,10 +41,8 @@
     [super viewDidLoad];
     [self.taskDate setDelegate:self];
     [self.taskDescription setDelegate:self];
-    
     //DBs Configuration
     self.dmManager = [[DMManager alloc] initWithSwitchState:self.isSwitchOn];
-    
     if(self.taskToEdit != nil) {
         [self loadInfoToEdit];
         [self.titleBttnQuery setHidden:NO];
@@ -53,7 +51,6 @@
         [self.titleBttnQuery setHidden:YES];
         [self.dateBttnQuery setHidden:YES];
     }
-    
     [self setBordersToTextFieldsAndButtons];
 }
 
@@ -77,7 +74,6 @@
 #pragma mark - configuration for text fields
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-//    [self convertTextIntoDateFormatToCheck:textField.text];
 }
 
 // Check validity of date string
@@ -115,15 +111,12 @@
     //Check if string in dateField is valid
     [self convertTextIntoDateFormatToCheck:self.taskDate.text];
     
-    Task *task;
-    
     if(([self.taskTitle.text  isEqualToString: @""] && [self.taskDate.text  isEqualToString: @""] && [self.taskDescription.text  isEqualToString: @""]) || [self.taskTitle.text isEqualToString:@""]) {
         [self showAlert];
     }
-    
     if(self.taskToEdit == nil) {
         NSInteger taskID = ([[NSNumber numberWithUnsignedInteger:self.idOfLastItemInTasksArray] integerValue] + 1);
-        task = [[Task alloc] initTaslWithId:taskID title:[self.taskTitle.text lowercaseString] date:self.taskDate.text priority:self.priorityBttn.titleLabel.text andTaskDescription:self.taskDescription.text];
+        Task *task = [[Task alloc] initTaslWithId:taskID title:[self.taskTitle.text lowercaseString] date:self.taskDate.text priority:self.priorityBttn.titleLabel.text andTaskDescription:self.taskDescription.text];
         //DMManager Work
         [self.dmManager addRowInBothDBs:task];
     } else {

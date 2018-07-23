@@ -29,7 +29,6 @@ static NSString * const myCellId = @"idCellTask";
     [super viewDidLoad];
     //DBs Configuration SQL & Core Data
     self.dmManager = [[DMManager alloc] initWithSwitchState:self.controlSwitch.on];
-    
     [[self tableView] setDataSource:self];
     [[self tableView] setDelegate:self];
     
@@ -53,7 +52,6 @@ static NSString * const myCellId = @"idCellTask";
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     Task *taskToEdit = [self.tasksArr objectAtIndex:indexPath.row];
-    
     self.taskToEdit = taskToEdit;
     [self performSegueWithIdentifier:@"idSegueEditInfo" sender:self];
 }
